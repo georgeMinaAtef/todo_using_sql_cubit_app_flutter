@@ -29,6 +29,7 @@ class AppCubit extends Cubit<AppStates>
   // ................... void changeBottomSheet  ...............................
   bool isBottomSheetShown = false;
   IconData fabIcon = Icons.edit;
+
   void changeBottomSheet(
   {
     required bool isShow ,
@@ -76,7 +77,7 @@ class AppCubit extends Cubit<AppStates>
             print('Data Base Created');
           }
           database.execute(
-              'create table tasks(id integer primary key , title text, date text,time text, status text ) '
+              'create table tasks(id integer primary key , title text,subTitle text ,date text,fromTime text,toTime text, status text ) '
           ).then((value)
           {
             if (kDebugMode)
@@ -110,15 +111,17 @@ class AppCubit extends Cubit<AppStates>
   insertToDatabase(
       {
         required String title,
+        required String subTitle,
         required String date,
-        required String time,
+        required String fromTime,
+        required String toTime,
       }) async
   {
      database.transaction((txn)async
     {
       await txn.rawInsert
         (
-          'insert into tasks (title , date , time, status) values ("$title", "$date", "$time", "new")'
+          'insert into tasks (title ,subTitle, date , fromTime,toTime, status) values ("$title","$subTitle", "$date", "$fromTime","$toTime", "new")'
       ).then((value)
       {
         if (kDebugMode) {

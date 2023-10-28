@@ -18,12 +18,15 @@ class HomeScreen extends StatelessWidget {
     var scaffoldKey = GlobalKey<ScaffoldState>();
     var formKey = GlobalKey<FormState>();
     var titleController = TextEditingController();
-    var timeController = TextEditingController();
+    var subTitleController = TextEditingController();
     var dateController = TextEditingController();
+    var fromTimeController = TextEditingController();
+    var toTimeController = TextEditingController();
 
 
     return  BlocProvider(
       create: (context) => AppCubit()..createDatabase(),
+
       child: BlocConsumer<AppCubit, AppStates>(
 
         listener: (context, state) {
@@ -76,8 +79,10 @@ class HomeScreen extends StatelessWidget {
                     {
                       cubit.insertToDatabase(
                           date: dateController.text,
-                          time: timeController.text,
-                          title: titleController.text
+                          title: titleController.text,
+                          subTitle: subTitleController.text,
+                          toTime: toTimeController.text,
+                          fromTime: fromTimeController.text,
                       );
                     }
                   }
@@ -110,34 +115,23 @@ class HomeScreen extends StatelessWidget {
 
                                   const SizedBox(height: 15,),
 
-                                  defaultTextFormField
-                                    (
-                                      controller: timeController,
-                                      type: TextInputType.datetime ,
-                                      label: 'Enter Time',
-                                      prefix: Icons.watch_later_outlined,
+                                  defaultTextFormField(
+                                      controller: subTitleController,
+                                      type: TextInputType.text ,
+                                      label: 'Enter SubTitle',
+                                      prefix: Icons.title,
                                       validator: (String? value)
                                       {
                                         if(value!.isEmpty)
                                         {
-                                          return 'Time must be equal null';
+                                          return 'Sub Title must be equal null';
                                         }
                                         return null;
-                                      },
-                                      onTap: ()
-                                      {
-                                        showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now()
-                                        ).then((value)
-                                        {
-                                          timeController.text = value!.format(context).toString() ;
-                                        }
-                                        );
                                       }
                                   ),
 
                                   const SizedBox(height: 15,),
+
 
                                   defaultTextFormField(
                                       controller: dateController,
@@ -165,6 +159,68 @@ class HomeScreen extends StatelessWidget {
                                         });
                                       }
                                   ),
+
+
+                                  const SizedBox(height: 15,),
+
+                                  defaultTextFormField
+                                    (
+                                      controller: fromTimeController,
+                                      type: TextInputType.datetime ,
+                                      label: 'Enter From Time',
+                                      prefix: Icons.watch_later_outlined,
+                                      validator: (String? value)
+                                      {
+                                        if(value!.isEmpty)
+                                        {
+                                          return 'From Time must be equal null';
+                                        }
+                                        return null;
+                                      },
+                                      onTap: ()
+                                      {
+                                        showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now()
+                                        ).then((value)
+                                        {
+                                          fromTimeController.text = value!.format(context).toString() ;
+                                        }
+                                        );
+                                      }
+                                  ),
+
+                                  const SizedBox(height: 15,),
+
+                                  defaultTextFormField
+                                    (
+                                      controller: toTimeController,
+                                      type: TextInputType.datetime ,
+                                      label: 'Enter To Time',
+                                      prefix: Icons.watch_later_outlined,
+                                      validator: (String? value)
+                                      {
+                                        if(value!.isEmpty)
+                                        {
+                                          return 'To Time must be equal null';
+                                        }
+                                        return null;
+                                      },
+                                      onTap: ()
+                                      {
+                                        showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now()
+                                        ).then((value)
+                                        {
+                                          toTimeController.text = value!.format(context).toString() ;
+                                        }
+                                        );
+                                      }
+                                  ),
+
+                                  const SizedBox(height: 15,),
+
                                 ],
                               ),
                             ),
@@ -236,6 +292,8 @@ class HomeScreen extends StatelessWidget {
     );
 
   }
+
+
 
 
 }

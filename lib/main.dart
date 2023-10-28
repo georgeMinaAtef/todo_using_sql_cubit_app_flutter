@@ -8,7 +8,7 @@ import 'package:todo_app/shared/network/dio_helper.dart';
 import 'package:todo_app/shared/styles/bloc_observer.dart';
 import 'package:todo_app/shared/styles/themes.dart';
 
-void main() async {
+void main() async { 
   Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   // BlocOverrides.runZoned(

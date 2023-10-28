@@ -116,58 +116,83 @@ Widget buildTaskItem
   key: Key(model['id'].toString()),
   child:   Padding(
 
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(10),
 
-    child: Row(
-      children:  [
-        CircleAvatar(
-          radius: 40,
-          child:Text(
-            '${model['time']}',
-          ),
-        ),
+    child: Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children:  [
 
-        const SizedBox(width: 20,),
+          Row(children: [
 
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children:  [
-              Text(
+            const Icon(Icons.home),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
                 '${model['title']}',
               ),
+            ),
 
-              Text(
-                '${model['date']}',
-              ),
-            ],
+            const Spacer(),
+
+            IconButton(
+                onPressed: ()
+                {
+                  AppCubit.get(context).updateDate(
+                      status: 'done',
+                      id: model['id']
+                  );
+                },
+                icon: const Icon(Icons.check_box_outlined,)
+            ),
+
+            IconButton(
+                onPressed: ()
+                {
+                  AppCubit.get(context).updateDate(
+                      status: 'archived',
+                      id: model['id']
+                  );
+                },
+                icon: const Icon(Icons.archive,)
+            ),
+          ],),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 10,bottom: 5),
+            child: Text(
+              '${model['subTitle']}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
 
-        ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 5),
+            child: Text(
+              '${model['date']}',
+            ),
+          ),
 
-        IconButton(
-            onPressed: ()
-            {
-              AppCubit.get(context).updateDate(
-                  status: 'done',
-                  id: model['id']
-              );
-            },
-            icon: const Icon(Icons.check_box_outlined,)
-        ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10,bottom: 10,right: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Time:   From ${model['fromTime']}',
+                ),
+                const Spacer(),
 
-        IconButton(
-            onPressed: ()
-            {
-              AppCubit.get(context).updateDate(
-                  status: 'archived',
-                  id: model['id']
-              );
-            },
-            icon: const Icon(Icons.archive,)
-        ),
-      ],
+                Text(
+                  'To  ${model['toTime']}',
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
 
     ),
 
